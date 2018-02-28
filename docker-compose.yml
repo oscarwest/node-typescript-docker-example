@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  api:
+    build: .
+    command: npm run container-debug
+
+    volumes:
+      - ./dist:/server/dist
+    environment:
+      - NODE_CONFIG_DIR=/server/dist/config
+      - PORT=8888
+    ports:
+      - "8888:8888"
+      - "9222:9222"
+    networks:
+      - redis-net
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    hostname: redis
+    networks:
+      - redis-net
+
+networks:
+  redis-net:
