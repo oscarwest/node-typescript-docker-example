@@ -13,15 +13,18 @@ const port = process.env.PORT || 3000;
 app.set('port', port);
 
 const key = 'someKey';
+
 app.post('/', (req, res, next) => {
-  client.set(key, 'someValue');
-  res.send(200);
+  const value: string = config.get('stuff.moreStuff');
+  client.set(key, value);
+  res.sendStatus(200);
 });
+
 app.get('/', (req, res, next) => {
-  client.get(key, (err, reply) => {
+  client.get(key, (err, reply: string) => {
     if (err) { res.send(400); }
     
-    res.send(JSON.stringify(reply.toString()));
+    res.send(JSON.stringify(reply));
   });
 });
 
